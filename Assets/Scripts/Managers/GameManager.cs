@@ -7,20 +7,24 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager I;
+
     public Text timeTxt;
     public GameObject endTxt;
     public GameObject card;
-    float time;
-    public static GameManager I;
-    [HideInInspector] public GameObject firstCard;
-    [HideInInspector] public GameObject secondCard;
     public AudioClip match;
     public AudioSource audioSource;
+
+    [HideInInspector] public GameObject firstCard;
+    [HideInInspector] public GameObject secondCard;
+    
+    private float time;
     
 
     private void Awake() {
         I = this;
     }
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -327,10 +327,10 @@ MonoBehaviour:
   timeTxt: {fileID: 2081998787}
   endTxt: {fileID: 520968819}
   card: {fileID: 6203939158437557898, guid: 4a3f3c533bfb4794da8c7a6d33175d6d, type: 3}
-  firstCard: {fileID: 0}
-  secondCard: {fileID: 0}
   match: {fileID: 8300000, guid: 5ab613920b4ad094db9c0aa7c0d17ff7, type: 3}
   audioSource: {fileID: 261688051}
+  firstCard: {fileID: 0}
+  secondCard: {fileID: 0}
 --- !u!4 &261688050
 Transform:
   m_ObjectHideFlags: 0
@@ -826,50 +826,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1072882363
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1072882364}
-  - component: {fileID: 1072882365}
-  m_Layer: 0
-  m_Name: AdsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1072882364
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072882363}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1072882365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072882363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddab7e70be27f9141aa338359a4976d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1083860980
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,4 +946,3 @@ SceneRoots:
   - {fileID: 1083860981}
   - {fileID: 261688050}
   - {fileID: 469535931}
-  - {fileID: 1072882364}
