@@ -5,8 +5,6 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     Animator anim;
-    public AudioClip flip;
-    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,16 +18,16 @@ public class Card : MonoBehaviour
     }
 
     public void OpenCard() {
-        audioSource.PlayOneShot(flip);
+        GameManager.I.soundManager.FlipSound();
         anim.SetBool("isOpen", true);
         transform.Find("Front").gameObject.SetActive(true);
         transform.Find("Back").gameObject.SetActive(false);
 
-        if(GameManager.I.firstCard == null) {
-            GameManager.I.firstCard = gameObject;
+        if(GameManager.I.cardManager.firstCard == null) {
+            GameManager.I.cardManager.firstCard = gameObject;
         } else {
-            GameManager.I.secondCard = gameObject;
-            GameManager.I.IsMatched();
+            GameManager.I.cardManager.secondCard = gameObject;
+            GameManager.I.cardManager.IsMatched();
         }
     }
 
