@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class StartButton : MonoBehaviour
+public class StageButton : MonoBehaviour
 {
-    public GameObject startPanel;
-    public GameObject stagePanel;
+    public Text stageTxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +19,8 @@ public class StartButton : MonoBehaviour
         
     }
 
-    public void StartGame() {
-        startPanel.SetActive(false);
-        stagePanel.SetActive(true);
+    public void SelectStage() {
+        int stage = int.Parse(stageTxt.text);
+        SceneManager.LoadScene("MainScene");
     }
 }
