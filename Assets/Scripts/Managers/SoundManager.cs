@@ -4,28 +4,62 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioClip bgMusic;
-    public AudioClip match;
-    public AudioClip flip;
-    public AudioSource bgSource;
-    public AudioSource audioSource;
-    // Start is called before the first frame update
-    void Start()
-    {
-        bgSource.clip = bgMusic;
-        bgSource.Play();
+    [Header("BGM")]
+    public AudioClip[] bgmClips;
+    public float bgmVolume;
+    AudioSource bgmPlayer;
+
+    public enum BGM { easy, hard, emergency };
+
+
+    [Header("SFX")]
+    public AudioClip[] sfxClips;
+    public float sfxVolume;
+    public int sfxChannels;
+    int sfxIndex;
+    AudioSource[] sfxPlayers;
+    public enum SFX { flip, matchSuccess, matchFail };
+    
+    void Awake() {
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Init() {
+        // 배경음
+        GameObject bgmObject = new GameObject("BgmPlayer");
+        bgmObject.transform.parent = transform;
+        bgmPlayer = bgmObject.AddComponent<AudioSource>();
+        bgmPlayer.playOnAwake = false;
+        bgmPlayer.loop = true;
+        bgmPlayer.volume = bgmVolume;
 
-    public void MatchSound() {
-        audioSource.PlayOneShot(match);
+        // 효과음
+        GameObject sfxObject = new GameObject("SfxPlayer");
+        bgmObject.transform.parent = transform;
+        sfxPlayers = new AudioSource[sfxChannels];
+        for (int i = 0; i < sfxChannels; i++) {
+            sfxPlayers[i] = sfxObject.AddComponent<AudioSource>();
+            sfxPlayers[i].playOnAwake = false;
+            sfxPlayers[i].volume = sfxVolume;
+        } 
     }
-    public void FlipSound() {
-        audioSource.PlayOneShot(flip);
+    private void Start() {
+        ChangeBGM(BGM.easy);
+    }
+    public void ChangeBGM(BGM bgm) {
+        bgmPlayer.clip = bgmClips[(int)bgm];
+        bgmPlayer.Play();
+    }
+    public void PlaySFX(SFX sfx) {
+        for(int i = 0; i < sfxChannels; i++) {
+            int loopIndex = (i + sfxIndex) % sfxChannels;
+
+            if(sfxPlayers[loopIndex].isPlaying)
+                continue;
+
+            sfxPlayers[loopIndex].clip = sfxClips[(int)sfx];
+            sfxPlayers[loopIndex].Play();
+            break;
+        }
     }
 }
