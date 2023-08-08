@@ -59,8 +59,8 @@ public class UIManager : MonoBehaviour
     }
     public void SetNumCanvas()
     {
-        FailNumTxt.text = NumFail.ToString();
-        TotalNumTxt.text = NumTotal.ToString();
+        FailNumTxt.text = "ÃÑ ½ÇÆÐ È½¼ö : "+NumFail.ToString();
+        TotalNumTxt.text = "ÃÑ ½Ãµµ È½¼ö : " +NumTotal.ToString();
     }
     public void Penalty()
     {
