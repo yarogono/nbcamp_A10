@@ -9,12 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager I;
     public SoundManager soundManager;
     public CardManager cardManager;
-
-    public Text timeTxt;
-    public GameObject endTxt;
-    
-    private float time;
-    
+    public UIManager uiManager;
 
     private void Awake() {
         I = this;
@@ -23,27 +18,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1f;
-
-        cardManager.GenerateCard();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        time += Time.deltaTime;
-        timeTxt.text = time.ToString("N2");
-        if(time >= 30) {
-            PauseGame();
+        if(cardManager != null) {
+           cardManager.GenerateCard();
         }
-    }
-
-    public void PauseGame() {
-        Time.timeScale = 0;
-        endTxt.SetActive(true);
+        Time.timeScale = 1f;
+       
     }
 
     public void RetryGame() {
         SceneManager.LoadScene("MainScene");
     }
+
+    public void PauseGame()
+    {
+        uiManager.ActiveEndText();
+    }
+
 }
