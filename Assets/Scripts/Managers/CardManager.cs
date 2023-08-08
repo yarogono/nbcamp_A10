@@ -6,6 +6,7 @@ using UnityEngine;
 public class CardManager : MonoBehaviour
 {
     public GameObject card;
+    float timer;
 
     [HideInInspector] public GameObject firstCard;
     [HideInInspector] public GameObject secondCard;
@@ -18,7 +19,15 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(firstCard != null && secondCard == null) {
+            timer += Time.deltaTime;
+        }
+
+        if(timer >= 5) {
+            firstCard.GetComponent<Card>().CloseCard();
+            firstCard = null;
+            timer = 0;
+        }
     }
 
     public void GenerateCard() {
@@ -60,6 +69,6 @@ public class CardManager : MonoBehaviour
 
         firstCard = null;
         secondCard = null;
-    
+        timer = 0;
     }
 }
