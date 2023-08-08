@@ -421,6 +421,7 @@ MonoBehaviour:
   cardManager: {fileID: 713627278}
   timeTxt: {fileID: 2081998787}
   endTxt: {fileID: 520968819}
+  uiManager: {fileID: 1150614243}
 --- !u!4 &261688050
 Transform:
   m_ObjectHideFlags: 0
