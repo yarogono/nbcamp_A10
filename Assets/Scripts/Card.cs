@@ -18,16 +18,26 @@ public class Card : MonoBehaviour
     }
 
     public void OpenCard() {
-        GameManager.I.soundManager.FlipSound();
+        GameManager.I.soundManager.PlaySFX(SoundManager.SFX.flip);
         anim.SetBool("isOpen", true);
-        transform.Find("Front").gameObject.SetActive(true);
-        transform.Find("Back").gameObject.SetActive(false);
+        Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
+    }
 
-        if(GameManager.I.cardManager.firstCard == null) {
-            GameManager.I.cardManager.firstCard = gameObject;
-        } else {
-            GameManager.I.cardManager.secondCard = gameObject;
-            GameManager.I.cardManager.IsMatched();
+    void flipCard() {
+        if(anim.GetBool("isOpen")) {
+            transform.Find("Front").gameObject.SetActive(true);
+            transform.Find("Back").gameObject.SetActive(false);
+
+            if(GameManager.I.cardManager.firstCard == null) {
+                GameManager.I.cardManager.firstCard = gameObject;
+            } else {
+                GameManager.I.cardManager.secondCard = gameObject;
+                GameManager.I.cardManager.IsMatched();
+            }
+        }
+        else {
+            transform.Find("Back").gameObject.SetActive(true);
+            transform.Find("Front").gameObject.SetActive(false);
         }
     }
 
@@ -49,7 +59,6 @@ public class Card : MonoBehaviour
     void CloseCardInvoke()
     {
         anim.SetBool("isOpen", false);
-        transform.Find("Back").gameObject.SetActive(true);
-        transform.Find("Front").gameObject.SetActive(false);
+        Invoke("flipCard", 0.333f);
     }
 }
