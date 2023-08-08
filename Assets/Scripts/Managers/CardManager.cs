@@ -43,6 +43,7 @@ public class CardManager : MonoBehaviour
         string secondCardImage = secondCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite.name;
 
         if(firstCardImage == secondCardImage) {
+            GameManager.I.uiManager.PlusTotal();
             GameManager.I.soundManager.MatchSound();
             firstCard.GetComponent<Card>().DestroyCard();
             secondCard.GetComponent<Card>().DestroyCard();
@@ -53,6 +54,8 @@ public class CardManager : MonoBehaviour
             }
         }
         else {
+            GameManager.I.uiManager.PlusNumFail();
+            GameManager.I.uiManager.Penalty();
             firstCard.GetComponent<Card>().CloseCard();
             secondCard.GetComponent<Card>().CloseCard();  
         }
