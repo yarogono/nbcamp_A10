@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
@@ -8,10 +10,19 @@ public class CardManager : MonoBehaviour
     public GameObject card;
     float timer;
     int cardsLeft;
-    int cardCnt;
-    [SerializeField] private Vector3 deckPosition; 
+
+    private bool isCardGenerated;
+
+    Dictionary<GameObject, Vector3> cardList = new Dictionary<GameObject, Vector3>();
+
     [HideInInspector] public GameObject firstCard;
     [HideInInspector] public GameObject secondCard;
+    // Start is called before the first frame update
+    void Start()
+    {
+        isCardGenerated = false;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -24,6 +35,11 @@ public class CardManager : MonoBehaviour
                 timer = 0;
             }
         }
+
+        if (isCardGenerated == false)
+        {
+            StartCoroutine(GenerateCardMoveToTarget(0.03f));
+        }
     }
 
     public void GenerateCard() {
@@ -31,25 +47,34 @@ public class CardManager : MonoBehaviour
         cards = cards.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
         cardsLeft = cards.Length;
-        cardCnt = cards.Length;
 
         float cardTerm = card.transform.localScale.x + 0.1f;
             
         for(int i = 0; i < 16; i++) {
-            float x = (i%4) * cardTerm - 2.1f;
-            float y = (i/4) * cardTerm - 3.0f;
-
-            GameObject newCard = Instantiate(card, deckPosition, Quaternion.identity);
+            GameObject newCard = Instantiate(card);
             newCard.transform.parent = GameObject.Find("Cards").transform;
-            
-            newCard.GetComponent<Card>().GoalPosition = new Vector3(x, y, 0);
 
+            float x = (i % 4) * 1.4f - 2.1f;
+            float y = (i / 4) * 1.4f - 3.0f;
+            newCard.transform.position = new Vector3(0f, 0f, 0f);
+
+            Vector3 target = new Vector3(x, y, 0);
             string cardName = "card" + cards[i].ToString();
             newCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(cardName);
-            
+            cardList.Add(newCard, target);
         }
+    }
 
-        
+    IEnumerator GenerateCardMoveToTarget(float waitSeconds)
+    {
+        foreach (KeyValuePair<GameObject, Vector3> card in cardList)
+        {
+            GameObject cardGameObject = card.Key;
+            Vector3 cardVector3 = card.Value;
+            cardGameObject.transform.position = Vector3.Lerp(cardGameObject.transform.position, cardVector3, 0.1f);
+            yield return new WaitForSeconds(waitSeconds);
+        }
+        isCardGenerated = true;
     }
 
     public void IsMatched() {
@@ -91,13 +116,6 @@ public class CardManager : MonoBehaviour
         }
         else {
             return "기현빈";
-        }
-    }
-
-    public void FixedPosition() {
-        cardCnt--;
-        if(cardCnt == 0) {
-            //카드 분배 끝
         }
     }
 }
