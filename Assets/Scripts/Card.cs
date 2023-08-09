@@ -21,6 +21,7 @@ public class Card : MonoBehaviour
         SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
         anim.SetBool("isOpen", true);
         Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
+        OpenCardBackColorChange();
     }
 
     void flipCard() {
@@ -60,5 +61,10 @@ public class Card : MonoBehaviour
     {
         anim.SetBool("isOpen", false);
         Invoke("flipCard", 0.333f);
+    }
+
+    private void OpenCardBackColorChange()
+    {
+        transform.Find("Back").GetComponent<SpriteRenderer>().color = Color.gray;
     }
 }
