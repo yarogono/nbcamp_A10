@@ -7,6 +7,7 @@ public class CardManager : MonoBehaviour
 {
     public GameObject card;
     float timer;
+    int cardsLeft;
 
     [HideInInspector] public GameObject firstCard;
     [HideInInspector] public GameObject secondCard;
@@ -44,6 +45,8 @@ public class CardManager : MonoBehaviour
             string cardName = "card" + cards[i].ToString();
             newCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(cardName);
         }
+
+        cardsLeft = cards.Length;
     }
 
     public void IsMatched() {
@@ -56,9 +59,9 @@ public class CardManager : MonoBehaviour
             SoundManager.Instance.PlaySFX(SoundManager.SFX.matchSuccess);
             firstCard.GetComponent<Card>().DestroyCard();
             secondCard.GetComponent<Card>().DestroyCard();
+            cardsLeft -= 2;
 
-            int cardsLeft = GameObject.Find("Cards").transform.childCount;
-            if(cardsLeft == 2) {
+            if(cardsLeft == 0) {
                 GameManager.I.uiManager.ActiveEndText();
             }
         }
