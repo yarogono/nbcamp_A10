@@ -18,7 +18,10 @@ public class EndText : MonoBehaviour
     }
 
     public void ReGame() {
-        //AdsManager.I.ShowRewardAd();
-        SceneManager.LoadScene("MainScene");
+        if(GameManager.I.uiManager.TimeOver)
+            SceneManager.LoadScene("MainScene");
+        else
+            SceneManager.LoadScene("StartScene");
+            Time.timeScale = 1f;
     }
 }

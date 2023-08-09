@@ -20,7 +20,8 @@ public class StageButton : MonoBehaviour
     }
 
     public void SelectStage() {
-        int stage = int.Parse(stageTxt.text);
+        SoundManager.Instance.PlaySFX(SoundManager.SFX.btnClicked);
+        DataManager.Instance.currentStage = int.Parse(stageTxt.text);
         SceneManager.LoadScene("MainScene");
     }
 }

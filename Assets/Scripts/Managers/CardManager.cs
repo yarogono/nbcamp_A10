@@ -19,14 +19,13 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(firstCard != null && secondCard == null) {
+        if(firstCard != null) {
             timer += Time.deltaTime;
-        }
-
-        if(timer >= 5) {
-            firstCard.GetComponent<Card>().CloseCard();
-            firstCard = null;
-            timer = 0;
+            if(timer >= 5) {
+                firstCard.GetComponent<Card>().CloseCard();
+                firstCard = null;
+                timer = 0;
+            }
         }
     }
 
@@ -54,20 +53,20 @@ public class CardManager : MonoBehaviour
         if(firstCardImage == secondCardImage) {
             GameManager.I.uiManager.MatchResult(WhoAreYou(firstCardImage));
             GameManager.I.uiManager.PlusTotal();
-            GameManager.I.soundManager.PlaySFX(SoundManager.SFX.matchSuccess);
+            SoundManager.Instance.PlaySFX(SoundManager.SFX.matchSuccess);
             firstCard.GetComponent<Card>().DestroyCard();
             secondCard.GetComponent<Card>().DestroyCard();
 
             int cardsLeft = GameObject.Find("Cards").transform.childCount;
             if(cardsLeft == 2) {
-                GameManager.I.PauseGame();
+                GameManager.I.uiManager.ActiveEndText();
             }
         }
         else {
             GameManager.I.uiManager.MatchResult("실패");
             GameManager.I.uiManager.PlusNumFail();
             GameManager.I.uiManager.Penalty();
-            GameManager.I.soundManager.PlaySFX(SoundManager.SFX.matchFail);
+            SoundManager.Instance.PlaySFX(SoundManager.SFX.matchFail);
             firstCard.GetComponent<Card>().CloseCard();
             secondCard.GetComponent<Card>().CloseCard();  
         }

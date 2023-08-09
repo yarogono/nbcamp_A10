@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
-{
+{    
+    private static SoundManager instance;
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
+
     [Header("BGM")]
     public AudioClip[] bgmClips;
     public float bgmVolume;
     AudioSource bgmPlayer;
 
-    public enum BGM { easy, hard, busy };
+    public enum BGM { easy, hard, busy, stop };
 
 
     [Header("SFX")]
@@ -18,9 +31,19 @@ public class SoundManager : MonoBehaviour
     public int sfxChannels;
     int sfxIndex;
     AudioSource[] sfxPlayers;
-    public enum SFX { flip, matchSuccess, matchFail };
+    public enum SFX { flip, matchSuccess, matchFail, btnClicked };
     
     void Awake() {
+        if (null == instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         Init();
     }
 
@@ -35,7 +58,7 @@ public class SoundManager : MonoBehaviour
 
         // 효과음
         GameObject sfxObject = new GameObject("SfxPlayer");
-        bgmObject.transform.parent = transform;
+        sfxObject.transform.parent = transform;
         sfxPlayers = new AudioSource[sfxChannels];
         for (int i = 0; i < sfxChannels; i++) {
             sfxPlayers[i] = sfxObject.AddComponent<AudioSource>();
@@ -46,8 +69,10 @@ public class SoundManager : MonoBehaviour
     public void ChangeBGM(BGM bgm) {
         if(bgmPlayer.isPlaying)
             bgmPlayer.Stop();
-        bgmPlayer.clip = bgmClips[(int)bgm];
-        bgmPlayer.Play();
+        if(bgm != BGM.stop) {
+            bgmPlayer.clip = bgmClips[(int)bgm];
+            bgmPlayer.Play();
+        }
     }
     public void PlaySFX(SFX sfx) {
         for(int i = 0; i < sfxChannels; i++) {
