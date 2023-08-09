@@ -7,16 +7,16 @@ public class UIManager : MonoBehaviour
 {
     private float time;
     public bool TimeOver;
-    public float FailPanelty = 3; // ½ÇÆĞ ÆĞ³ÎÆ¼ 
-    public float RedTime; // °æ°í ½Ã°£
-    public float EndTime; // Á¦ÇÑ ½Ã°£
+    public float FailPanelty = 3; // ì‹¤íŒ¨ íŒ¨ë„í‹°
+    public float RedTime; // ê²½ê³  ì‹œê°„
+    public float EndTime; // ì œí•œ ì‹œê°„
     public int NumTotal;
     public int NumFail;
     public Text timeTxt;
     public Text FailNumTxt;
     public Text TotalNumTxt;
+    public Text matchTxt;
     public GameObject endTxt;
-    public GameManager gameManager;
     public GameObject NumCanvas;
     // Update is called once per frame
 
@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
         if (time >= RedTime)
         {
             timeTxt.color = Color.red;
+            //GameManager.I.soundManager.ChangeBGM(SoundManager.BGM.busy);
             if (time >= EndTime)
             {
                 TimeOver = true;
@@ -59,12 +60,19 @@ public class UIManager : MonoBehaviour
     }
     public void SetNumCanvas()
     {
-        FailNumTxt.text = "ÃÑ ½ÇÆĞ È½¼ö : "+NumFail.ToString();
-        TotalNumTxt.text = "ÃÑ ½Ãµµ È½¼ö : " +NumTotal.ToString();
+        FailNumTxt.text = "ì´ ì‹¤íŒ¨ íšŸìˆ˜ : " + NumFail.ToString();
+        TotalNumTxt.text = "ì´ ì‹œë„ íšŸìˆ˜ : " + NumTotal.ToString();
     }
     public void Penalty()
     {
         time += FailPanelty;
     }
-
+    public void MatchResult(string result) {
+        matchTxt.text = result;
+        matchTxt.gameObject.SetActive(true);
+        Invoke("MatchResultHide", 1);
+    }
+    void MatchResultHide() {
+        matchTxt.gameObject.SetActive(false);
+    }
 }

@@ -52,6 +52,7 @@ public class CardManager : MonoBehaviour
         string secondCardImage = secondCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite.name;
 
         if(firstCardImage == secondCardImage) {
+            GameManager.I.uiManager.MatchResult(WhoAreYou(firstCardImage));
             GameManager.I.uiManager.PlusTotal();
             GameManager.I.soundManager.PlaySFX(SoundManager.SFX.matchSuccess);
             firstCard.GetComponent<Card>().DestroyCard();
@@ -63,6 +64,7 @@ public class CardManager : MonoBehaviour
             }
         }
         else {
+            GameManager.I.uiManager.MatchResult("실패");
             GameManager.I.uiManager.PlusNumFail();
             GameManager.I.uiManager.Penalty();
             GameManager.I.soundManager.PlaySFX(SoundManager.SFX.matchFail);
@@ -73,5 +75,17 @@ public class CardManager : MonoBehaviour
         firstCard = null;
         secondCard = null;
         timer = 0;
+    }
+
+    string WhoAreYou(string name) {
+        if(name == "card0" || name == "card1" || name == "card2" || name == "card3") {
+            return "이정환";
+        }
+        else if (name == "card4") {
+            return "임전혁";
+        }
+        else {
+            return "기현빈";
+        }
     }
 }

@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
            cardManager.GenerateCard();
         }
         Time.timeScale = 1f;
-       
+        
+        soundManager.ChangeBGM(SoundManager.BGM.easy);
     }
 
     public void RetryGame() {

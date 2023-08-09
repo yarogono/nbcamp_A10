@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     public float bgmVolume;
     AudioSource bgmPlayer;
 
-    public enum BGM { easy, hard, emergency };
+    public enum BGM { easy, hard, busy };
 
 
     [Header("SFX")]
@@ -43,10 +43,9 @@ public class SoundManager : MonoBehaviour
             sfxPlayers[i].volume = sfxVolume;
         } 
     }
-    private void Start() {
-        ChangeBGM(BGM.easy);
-    }
     public void ChangeBGM(BGM bgm) {
+        if(bgmPlayer.isPlaying)
+            bgmPlayer.Stop();
         bgmPlayer.clip = bgmClips[(int)bgm];
         bgmPlayer.Play();
     }
