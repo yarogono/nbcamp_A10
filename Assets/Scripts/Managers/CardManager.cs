@@ -1,17 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour
 {
     public GameObject card;
     float timer;
-    int cardsLeft;
-    int cardCnt;
-    [SerializeField] private Vector3 deckPosition; 
+    
+    private bool isCardGenerated;
+
+    Dictionary<GameObject, Vector3> cardList = new Dictionary<GameObject, Vector3>();
+
     [HideInInspector] public GameObject firstCard;
     [HideInInspector] public GameObject secondCard;
+    // Start is called before the first frame update
+    void Start()
+    {
+        isCardGenerated = false;
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -23,6 +33,11 @@ public class CardManager : MonoBehaviour
                 firstCard = null;
                 timer = 0;
             }
+        }
+
+        if (isCardGenerated == false)
+        {
+            StartCoroutine(GenerateCardMoveToTarget(0.03f));
         }
     }
 
@@ -41,15 +56,28 @@ public class CardManager : MonoBehaviour
 
             GameObject newCard = Instantiate(card, deckPosition, Quaternion.identity);
             newCard.transform.parent = GameObject.Find("Cards").transform;
-            
-            newCard.GetComponent<Card>().GoalPosition = new Vector3(x, y, 0);
 
+            float x = (i%4) * 1.4f - 2.1f;
+            float y = (i/4) * 1.4f - 3.0f;
+            newCard.transform.position = new Vector3(0f, 0f, 0f);
+
+            Vector3 target = new Vector3(x, y, 0);
             string cardName = "card" + cards[i].ToString();
             newCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(cardName);
-            
+            cardList.Add(newCard, target);
         }
+    }
 
-        
+    IEnumerator GenerateCardMoveToTarget(float waitSeconds)
+    {
+        foreach (KeyValuePair<GameObject, Vector3> card in cardList)
+        {
+            GameObject cardGameObject = card.Key;
+            Vector3 cardVector3 = card.Value;
+            cardGameObject.transform.position = Vector3.Lerp(cardGameObject.transform.position, cardVector3, 0.1f);
+            yield return new WaitForSeconds(waitSeconds);
+        }
+        isCardGenerated = true;
     }
 
     public void IsMatched() {
