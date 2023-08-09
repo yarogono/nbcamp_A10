@@ -17,21 +17,6 @@ public class Card : MonoBehaviour
         y = transform.position.y;
     }
 
-    void Update() {
-        if(Vector3.Distance(GoalPosition, transform.position) > 0.0001f) {
-            x = Mathf.Lerp(x, GoalPosition.x, Time.deltaTime);
-            y = Mathf.Lerp(y, GoalPosition.y, Time.deltaTime);
-            transform.position = new Vector3(x, y, 0);
-        }
-        else {
-            if(!isFixed) {
-                isFixed = true;
-                transform.position = GoalPosition;
-                GameManager.I.cardManager.FixedPosition();
-            }
-        }
-    }
-
     public void OpenCard() {
         if(!anim.GetBool("isOpen")) {
             SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
