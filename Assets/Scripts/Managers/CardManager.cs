@@ -9,6 +9,7 @@ public class CardManager : MonoBehaviour
 {
     public GameObject card;
     float timer;
+    
     private bool isCardGenerated;
 
     Dictionary<GameObject, Vector3> cardList = new Dictionary<GameObject, Vector3>();
@@ -20,6 +21,7 @@ public class CardManager : MonoBehaviour
     {
         isCardGenerated = false;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -42,11 +44,19 @@ public class CardManager : MonoBehaviour
     public void GenerateCard() {
         int[] cards = {0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7};
         cards = cards.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+
+        cardsLeft = cards.Length;
+        cardCnt = cards.Length;
+
+        float cardTerm = card.transform.localScale.x + 0.1f;
             
         for(int i = 0; i < 16; i++) {
-            GameObject newCard = Instantiate(card);
+            float x = (i%4) * cardTerm - 2.1f;
+            float y = (i/4) * cardTerm - 3.0f;
+
+            GameObject newCard = Instantiate(card, deckPosition, Quaternion.identity);
             newCard.transform.parent = GameObject.Find("Cards").transform;
-            
+
             float x = (i%4) * 1.4f - 2.1f;
             float y = (i/4) * 1.4f - 3.0f;
             newCard.transform.position = new Vector3(0f, 0f, 0f);
@@ -80,9 +90,9 @@ public class CardManager : MonoBehaviour
             SoundManager.Instance.PlaySFX(SoundManager.SFX.matchSuccess);
             firstCard.GetComponent<Card>().DestroyCard();
             secondCard.GetComponent<Card>().DestroyCard();
+            cardsLeft -= 2;
 
-            int cardsLeft = GameObject.Find("Cards").transform.childCount;
-            if(cardsLeft == 2) {
+            if(cardsLeft == 0) {
                 GameManager.I.uiManager.ActiveEndText();
             }
         }
@@ -109,6 +119,13 @@ public class CardManager : MonoBehaviour
         }
         else {
             return "기현빈";
+        }
+    }
+
+    public void FixedPosition() {
+        cardCnt--;
+        if(cardCnt == 0) {
+            //카드 분배 끝
         }
     }
 }

@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.5168742, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -237,7 +237,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 100}
+  m_SizeDelta: {x: 160, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &53485857
 MonoBehaviour:
@@ -272,7 +272,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "0 \uC2A4\uD14C\uC774\uC9C0\n\uCD5C\uACE0 \uC810\uC218: 0"
+  m_Text: "0 \uC2A4\uD14C\uC774\uC9C0\n\uCD5C\uACE0 \uC810\uC218: 0\n\uC81C\uD55C
+    \uC2DC\uAC04: 60"
 --- !u!222 &53485858
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1067,6 +1068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 6203939158437557898, guid: 4a3f3c533bfb4794da8c7a6d33175d6d, type: 3}
+  deckPosition: {x: 0, y: 3, z: 0}
   firstCard: {fileID: 0}
   secondCard: {fileID: 0}
 --- !u!1 &1083860980

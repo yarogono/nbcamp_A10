@@ -22,13 +22,12 @@ public class UIManager : MonoBehaviour
     public Text bestTxt;
     public GameObject endTxt;
     public GameObject NumCanvas;
+    bool TextActive;
     // Update is called once per frame
 
     private void Awake()
     {
-        TimeOver = false;
-        enterRedTime = false;
-        EndTime -= DataManager.Instance.currentStage;
+        EndTime -= DataManager.Instance.currentStage - 1;
     }
     void Update()
     {
@@ -78,18 +77,23 @@ public class UIManager : MonoBehaviour
         time += FailPanelty;
     }
     public void MatchResult(string result) {
+        if(TextActive) {
+            CancelInvoke("MatchResultHide");
+        }
         matchTxt.text = result;
         matchTxt.gameObject.SetActive(true);
         Invoke("MatchResultHide", 1);
+        TextActive = true;
     }
     void MatchResultHide() {
         matchTxt.gameObject.SetActive(false);
+        TextActive = false;
     }
     void MakeScore() {
         totalScore = (int)((EndTime - time) * 100) - NumTotal - NumFail;
         if(!enterRedTime) totalScore = (int)(totalScore * 1.2f);
     }
     public void ShowBestScore() {
-        bestTxt.text = $"{DataManager.Instance.currentStage} 스테이지\n최고 점수: {DataManager.Instance.StageBestScore()}";
+        bestTxt.text = $"{DataManager.Instance.currentStage} 스테이지\n최고 점수: {DataManager.Instance.StageBestScore()}\n제한 시간: {EndTime}";
     }
 }

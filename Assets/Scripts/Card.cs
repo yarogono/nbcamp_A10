@@ -5,23 +5,40 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     Animator anim;
+    public Vector3 GoalPosition;
+    float x;
+    float y;
+    bool isFixed;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        x = transform.position.x;
+        y = transform.position.y;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        if(Vector3.Distance(GoalPosition, transform.position) > 0.0001f) {
+            x = Mathf.Lerp(x, GoalPosition.x, Time.deltaTime);
+            y = Mathf.Lerp(y, GoalPosition.y, Time.deltaTime);
+            transform.position = new Vector3(x, y, 0);
+        }
+        else {
+            if(!isFixed) {
+                isFixed = true;
+                transform.position = GoalPosition;
+                GameManager.I.cardManager.FixedPosition();
+            }
+        }
     }
 
     public void OpenCard() {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
-        anim.SetBool("isOpen", true);
-        Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
-        OpenCardBackColorChange();
+        if(!anim.GetBool("isOpen")) {
+            SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
+            anim.SetBool("isOpen", true);
+            Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
+            OpenCardBackColorChange();
+        }
     }
 
     void flipCard() {
