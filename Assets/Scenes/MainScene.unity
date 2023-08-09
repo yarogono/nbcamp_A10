@@ -1068,6 +1068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 6203939158437557898, guid: 4a3f3c533bfb4794da8c7a6d33175d6d, type: 3}
+  deckPosition: {x: 0, y: 3, z: 0}
   firstCard: {fileID: 0}
   secondCard: {fileID: 0}
 --- !u!1 &1083860980
