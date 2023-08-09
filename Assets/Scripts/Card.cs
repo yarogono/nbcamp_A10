@@ -11,17 +11,13 @@ public class Card : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OpenCard() {
-        SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
-        anim.SetBool("isOpen", true);
-        Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
-        OpenCardBackColorChange();
+        if(!anim.GetBool("isOpen")) {
+            SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
+            anim.SetBool("isOpen", true);
+            Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
+            OpenCardBackColorChange();
+        }
     }
 
     void flipCard() {
