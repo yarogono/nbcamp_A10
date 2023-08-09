@@ -5,16 +5,10 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     Animator anim;
-    public Vector3 GoalPosition;
-    float x;
-    float y;
-    bool isFixed;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-        x = transform.position.x;
-        y = transform.position.y;
     }
 
     public void OpenCard() {
