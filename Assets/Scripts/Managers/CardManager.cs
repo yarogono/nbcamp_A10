@@ -8,14 +8,10 @@ public class CardManager : MonoBehaviour
     public GameObject card;
     float timer;
     int cardsLeft;
-
+    int cardCnt;
+    [SerializeField] private Vector3 deckPosition; 
     [HideInInspector] public GameObject firstCard;
     [HideInInspector] public GameObject secondCard;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -33,20 +29,27 @@ public class CardManager : MonoBehaviour
     public void GenerateCard() {
         int[] cards = {0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7};
         cards = cards.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
+
+        cardsLeft = cards.Length;
+        cardCnt = cards.Length;
+
+        float cardTerm = card.transform.localScale.x + 0.1f;
             
         for(int i = 0; i < 16; i++) {
-            GameObject newCard = Instantiate(card);
+            float x = (i%4) * cardTerm - 2.1f;
+            float y = (i/4) * cardTerm - 3.0f;
+
+            GameObject newCard = Instantiate(card, deckPosition, Quaternion.identity);
             newCard.transform.parent = GameObject.Find("Cards").transform;
             
-            float x = (i%4) * 1.4f - 2.1f;
-            float y = (i/4) * 1.4f - 3.0f;
-            newCard.transform.position = new Vector3(x, y, 0);
+            newCard.GetComponent<Card>().GoalPosition = new Vector3(x, y, 0);
 
             string cardName = "card" + cards[i].ToString();
             newCard.transform.Find("Front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(cardName);
+            
         }
 
-        cardsLeft = cards.Length;
+        
     }
 
     public void IsMatched() {
@@ -88,6 +91,13 @@ public class CardManager : MonoBehaviour
         }
         else {
             return "기현빈";
+        }
+    }
+
+    public void FixedPosition() {
+        cardCnt--;
+        if(cardCnt == 0) {
+            //카드 분배 끝
         }
     }
 }
