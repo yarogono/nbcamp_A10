@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     {
         TimeOver = false;
         enterRedTime = false;
-        EndTime -= DataManager.Instance.currentStage;
+        EndTime -= DataManager.Instance.currentStage - 1;
     }
     void Update()
     {
@@ -90,6 +90,6 @@ public class UIManager : MonoBehaviour
         if(!enterRedTime) totalScore = (int)(totalScore * 1.2f);
     }
     public void ShowBestScore() {
-        bestTxt.text = $"{DataManager.Instance.currentStage} 스테이지\n최고 점수: {DataManager.Instance.StageBestScore()}";
+        bestTxt.text = $"{DataManager.Instance.currentStage} 스테이지\n최고 점수: {DataManager.Instance.StageBestScore()}\n제한 시간: {EndTime}";
     }
 }
