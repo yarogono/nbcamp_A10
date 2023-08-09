@@ -58,7 +58,6 @@ public class DataManager : MonoBehaviour
             clearStage = currentStage;
             PlayerPrefs.SetInt("clear", currentStage);
             limitStage++;
-            Debug.Log(limitStage);
             PlayerPrefs.SetInt("limit", limitStage);
         }
     }
