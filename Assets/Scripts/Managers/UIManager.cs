@@ -7,44 +7,54 @@ public class UIManager : MonoBehaviour
 {
     private float time;
     public bool TimeOver;
-    public float FailPanelty = 3; // ½ÇÆĞ ÆĞ³ÎÆ¼ 
-    public float RedTime; // °æ°í ½Ã°£
-    public float EndTime; // Á¦ÇÑ ½Ã°£
+    public bool enterRedTime;
+    public float FailPanelty = 3; // ì‹¤íŒ¨ íŒ¨ë„í‹°
+    public float RedTime; // ê²½ê³  ì‹œê°„
+    public float EndTime; // ì œí•œ ì‹œê°„
     public int NumTotal;
     public int NumFail;
+    int totalScore;
     public Text timeTxt;
     public Text FailNumTxt;
     public Text TotalNumTxt;
+    public Text totalScoreTxt;
+    public Text matchTxt;
+    public Text bestTxt;
     public GameObject endTxt;
-    public GameManager gameManager;
     public GameObject NumCanvas;
     // Update is called once per frame
 
     private void Awake()
     {
         TimeOver = false;
+        enterRedTime = false;
+        EndTime -= DataManager.Instance.currentStage;
     }
     void Update()
     {
         time += Time.deltaTime;
         timeTxt.text = time.ToString("N2");
-        if (time >= RedTime)
+        if (time >= RedTime && !enterRedTime)
         {
+            enterRedTime = true;
             timeTxt.color = Color.red;
-            if (time >= EndTime)
-            {
-                TimeOver = true;
-                ActiveEndText();
-            }
-
+            SoundManager.Instance.ChangeBGM(SoundManager.BGM.busy);
+        }
+        if (time >= EndTime && !TimeOver)
+        {
+            TimeOver = true;
+            ActiveEndText();
         }
     }
 
     public void ActiveEndText()
     {
+        Time.timeScale = 0;
+        MakeScore();
+        DataManager.Instance.SaveData(totalScore);
+        SoundManager.Instance.ChangeBGM(SoundManager.BGM.stop);
         SetNumCanvas();
         NumCanvas.SetActive(true);
-        Time.timeScale = 0;
         endTxt.SetActive(true);
     }
 
@@ -59,12 +69,27 @@ public class UIManager : MonoBehaviour
     }
     public void SetNumCanvas()
     {
-        FailNumTxt.text = "ÃÑ ½ÇÆĞ È½¼ö : "+NumFail.ToString();
-        TotalNumTxt.text = "ÃÑ ½Ãµµ È½¼ö : " +NumTotal.ToString();
+        FailNumTxt.text = "ì´ ì‹¤íŒ¨ íšŸìˆ˜: " + NumFail.ToString();
+        TotalNumTxt.text = "ì´ ì‹œë„ íšŸìˆ˜: " + NumTotal.ToString();
+        totalScoreTxt.text = "ì ìˆ˜ í•©ê³„: " + totalScore.ToString();
     }
     public void Penalty()
     {
         time += FailPanelty;
     }
-
+    public void MatchResult(string result) {
+        matchTxt.text = result;
+        matchTxt.gameObject.SetActive(true);
+        Invoke("MatchResultHide", 1);
+    }
+    void MatchResultHide() {
+        matchTxt.gameObject.SetActive(false);
+    }
+    void MakeScore() {
+        totalScore = (int)((EndTime - time) * 100) - NumTotal - NumFail;
+        if(!enterRedTime) totalScore = (int)(totalScore * 1.2f);
+    }
+    public void ShowBestScore() {
+        bestTxt.text = $"{DataManager.Instance.currentStage} ìŠ¤í…Œì´ì§€\nìµœê³  ì ìˆ˜: {DataManager.Instance.StageBestScore()}";
+    }
 }

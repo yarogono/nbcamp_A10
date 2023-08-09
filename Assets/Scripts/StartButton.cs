@@ -20,6 +20,7 @@ public class StartButton : MonoBehaviour
     }
 
     public void StartGame() {
+        SoundManager.Instance.PlaySFX(SoundManager.SFX.btnClicked);
         startPanel.SetActive(false);
         stagePanel.SetActive(true);
     }

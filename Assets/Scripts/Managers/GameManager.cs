@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager I;
-    public SoundManager soundManager;
     public CardManager cardManager;
     public UIManager uiManager;
 
@@ -22,16 +21,8 @@ public class GameManager : MonoBehaviour
            cardManager.GenerateCard();
         }
         Time.timeScale = 1f;
-       
+        
+        SoundManager.Instance.ChangeBGM(SoundManager.BGM.easy);
+        uiManager.ShowBestScore();
     }
-
-    public void RetryGame() {
-        SceneManager.LoadScene("MainScene");
-    }
-
-    public void PauseGame()
-    {
-        uiManager.ActiveEndText();
-    }
-
 }

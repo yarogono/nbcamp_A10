@@ -18,7 +18,7 @@ public class Card : MonoBehaviour
     }
 
     public void OpenCard() {
-        GameManager.I.soundManager.PlaySFX(SoundManager.SFX.flip);
+        SoundManager.Instance.PlaySFX(SoundManager.SFX.flip);
         anim.SetBool("isOpen", true);
         Invoke("flipCard", 0.333f); //card_flip의 길이가 0.667f
         OpenCardBackColorChange();
