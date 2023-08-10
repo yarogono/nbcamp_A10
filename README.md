@@ -22,6 +22,8 @@
 ## 🎥 프로젝트 시연 영상
 ---
 
+[![Video Label](http://img.youtube.com/vi/_m9tj4ETJpE/0.jpg)](https://youtu.be/_m9tj4ETJpE)
+
 <br/>
 
 ## 와이어 프레임
